@@ -74,6 +74,8 @@ public class StudentFormController {
     }
 
     public void HOnAction(ActionEvent actionEvent) {
+        search();
+
         Student c = new Student(
                 txtId.getText(),
                 txtNAme.getText(),
@@ -84,7 +86,7 @@ public class StudentFormController {
         );
 
         try{
-            boolean isUpdated = CrudUtil.execute("UPDATE student SET student_name=? , email=?, contact=?, address=? , nic=? WHERE student_id=?",c.getStudent_id(),c.getName(),c.getEmail(),c.getContact(),c.getAddress(),c.getNic());
+            boolean isUpdated = CrudUtil.execute("UPDATE student SET student_name=? , email=?, contact=?, address=? , nic=? WHERE student_id=?",c.getName(),c.getEmail(),c.getContact(),c.getAddress(),c.getNic(),c.getStudent_id());
             if (isUpdated){
                 new Alert(Alert.AlertType.CONFIRMATION, "Updated!").show();
             }else{
@@ -102,6 +104,9 @@ public class StudentFormController {
         search();
     }
 
+
+
+
     public void DeleteOnAction(ActionEvent actionEvent) {
         try{
             if (CrudUtil.execute("DELETE FROM student WHERE student_id=?",txtId1.getText())){
@@ -114,6 +119,7 @@ public class StudentFormController {
 
         }
     }
+
     private void search() {
 
 
