@@ -77,6 +77,7 @@ public class StudentFormController {
     }
 
     public void NewOnAction(ActionEvent actionEvent) {
+        search();
     }
 
     public void DeleteOnAction(ActionEvent actionEvent) {
@@ -91,6 +92,28 @@ public class StudentFormController {
 
         }
     }
+    private void search() {
+
+
+        try {
+            ResultSet result = CrudUtil.execute("SELECT * FROM student WHERE student_id=?",txtId.getText());
+
+            if (result.next()) {
+                txtNAme.setText(result.getString(2));
+                txtEmail.setText(result.getString(3));
+                txtContact.setText(result.getString(4));
+                txtAddress.setText(result.getString(5));
+                txtNIC.setText(result.getString(6));
+
+            } else {
+                new Alert(Alert.AlertType.WARNING, "Empty Result").show();
+            }
+        }catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     public void SaveOnAction(ActionEvent actionEvent) {
