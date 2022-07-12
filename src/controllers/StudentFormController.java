@@ -1,11 +1,12 @@
 package controllers;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import model.Student;
+import util.CrudUtil;
+
+import java.sql.SQLException;
 
 public class StudentFormController {
     public TextField txtId;
@@ -38,5 +39,23 @@ public class StudentFormController {
     }
 
     public void SaveOnAction(ActionEvent actionEvent) {
+        Student c = new Student(
+                txtId.getText(),
+                txtNAme.getText(),
+                txtEmail.getText(),
+                txtContact.getText(),
+                txtAddress.getText(),
+                txtNIC.getText()
+
+        );
+
+        try {
+            if (CrudUtil.execute("INSERT INTO student VALUES (?,?,?,?,?,?)",c.getStudent_id(),c.getName(),c.getEmail(),c.getContact(),c.getAddress(),c.getNic())){
+                new Alert(Alert.AlertType.CONFIRMATION, "Saved!..").show();
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 }
