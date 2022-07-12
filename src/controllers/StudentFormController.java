@@ -1,11 +1,15 @@
 package controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import model.Student;
 import util.CrudUtil;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class StudentFormController {
@@ -26,6 +30,46 @@ public class StudentFormController {
     public TableColumn RAddress;
     public TableColumn RNic;
 
+
+
+    public void initialize(){
+
+        RID.setCellValueFactory(new PropertyValueFactory("student_id"));
+        RNAme.setCellValueFactory(new PropertyValueFactory("name"));
+        REmail.setCellValueFactory(new PropertyValueFactory("email"));
+        RContact.setCellValueFactory(new PropertyValueFactory("contact"));
+        RAddress.setCellValueFactory(new PropertyValueFactory("address"));
+        RNic.setCellValueFactory(new PropertyValueFactory("nic"));
+
+        try {
+            loadAllCustomers();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadAllCustomers() throws ClassNotFoundException, SQLException {
+        ResultSet result = CrudUtil.execute("SELECT * FROM student");
+        ObservableList<Student> obList = FXCollections.observableArrayList();
+
+        while (result.next()){
+            obList.add(
+                    new Student(
+                            result.getString("student_id"),
+                            result.getString("student_name"),
+                            result.getString("email"),
+                            result.getString("contact"),
+                            result.getString("address"),
+                            result.getString("nic")
+
+
+                    )
+            );
+        }
+        tblStudent.setItems(obList);
+
+    }
+
     public void textFeild_key_releseed2(KeyEvent keyEvent) {
     }
 
@@ -36,7 +80,18 @@ public class StudentFormController {
     }
 
     public void DeleteOnAction(ActionEvent actionEvent) {
+        try{
+            if (CrudUtil.execute("DELETE FROM student WHERE student_id=?",txtId.getText())){
+                new Alert(Alert.AlertType.CONFIRMATION, "Deleted!").show();
+            }else{
+                new Alert(Alert.AlertType.WARNING, "Try Again!").show();
+            }
+
+        }catch (SQLException | ClassNotFoundException e){
+
+        }
     }
+
 
     public void SaveOnAction(ActionEvent actionEvent) {
         Student c = new Student(
