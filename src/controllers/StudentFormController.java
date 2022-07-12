@@ -29,7 +29,7 @@ public class StudentFormController {
     public TableColumn RContact;
     public TableColumn RAddress;
     public TableColumn RNic;
-
+    public TextField txtId1;
 
 
     public void initialize(){
@@ -74,6 +74,28 @@ public class StudentFormController {
     }
 
     public void HOnAction(ActionEvent actionEvent) {
+        Student c = new Student(
+                txtId.getText(),
+                txtNAme.getText(),
+                txtEmail.getText(),
+                txtContact.getText(),
+                txtAddress.getText(),
+                txtNIC.getText()
+        );
+
+        try{
+            boolean isUpdated = CrudUtil.execute("UPDATE student SET student_name=? , email=?, contact=?, address=? , nic=? WHERE student_id=?",c.getStudent_id(),c.getName(),c.getEmail(),c.getContact(),c.getAddress(),c.getNic());
+            if (isUpdated){
+                new Alert(Alert.AlertType.CONFIRMATION, "Updated!").show();
+            }else{
+                new Alert(Alert.AlertType.WARNING, "Try Again!").show();
+            }
+
+
+        }catch (SQLException | ClassNotFoundException e){
+
+        }
+
     }
 
     public void NewOnAction(ActionEvent actionEvent) {
@@ -82,7 +104,7 @@ public class StudentFormController {
 
     public void DeleteOnAction(ActionEvent actionEvent) {
         try{
-            if (CrudUtil.execute("DELETE FROM student WHERE student_id=?",txtId.getText())){
+            if (CrudUtil.execute("DELETE FROM student WHERE student_id=?",txtId1.getText())){
                 new Alert(Alert.AlertType.CONFIRMATION, "Deleted!").show();
             }else{
                 new Alert(Alert.AlertType.WARNING, "Try Again!").show();
@@ -96,7 +118,7 @@ public class StudentFormController {
 
 
         try {
-            ResultSet result = CrudUtil.execute("SELECT * FROM student WHERE student_id=?",txtId.getText());
+            ResultSet result = CrudUtil.execute("SELECT * FROM student WHERE student_id=?",txtId1.getText());
 
             if (result.next()) {
                 txtNAme.setText(result.getString(2));

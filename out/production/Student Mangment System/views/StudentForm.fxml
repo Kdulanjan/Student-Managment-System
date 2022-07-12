@@ -132,7 +132,7 @@
             <TableColumn fx:id="RNic" prefWidth="135.0" text="NIC" />
          </columns>
       </TableView>
-      <TextField fx:id="txtId" layoutX="604.0" layoutY="169.0" onKeyReleased="#textFeild_key_releseed2" prefHeight="36.0" prefWidth="232.0" style="-fx-background-color: transparent; -fx-text-fill: Black; -fx-border-width: 0px 0px 2px 0px; -fx-border-color: black;" />
+      <TextField fx:id="txtId1" layoutX="604.0" layoutY="169.0" onKeyReleased="#textFeild_key_releseed2" prefHeight="36.0" prefWidth="232.0" style="-fx-background-color: transparent; -fx-text-fill: Black; -fx-border-width: 0px 0px 2px 0px; -fx-border-color: black;" />
       <Text layoutX="604.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Student_ID" wrappingWidth="176.6708984375">
          <font>
             <Font name="System Bold" size="15.0" />
